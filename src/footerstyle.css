@@ -1,0 +1,18 @@
+.footer {
+    background-color: #0e49b5;
+    color: gray;
+    text-align: center;
+    text-decoration: underline;
+    text-decoration-color: gray;
+    font-size: 1.3em;
+    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.socials {
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+}
+
+
