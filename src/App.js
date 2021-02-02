@@ -1,12 +1,12 @@
 import Header from './Header';
-import News from './News';
+import Article from './component/Article';
 import Footer from './Footer';
 
 function App() {
   return (
     <>
       <Header />
-      <News />
+      <Article />
       <Footer />
 
     </>
