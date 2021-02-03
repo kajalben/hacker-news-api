@@ -1,39 +1,22 @@
+import { ImageOutlined } from '@material-ui/icons';
 import React, { Fragment } from 'react';
-import {hits} from '../data/news.json';
-import '../styles/news.css';
+import SelectedArticle from '../component/SelectedArticle';
+import '../styles/article.css';
 
-const Article = () =>{
-
-    const changeDate = (date) =>{
-        const newDate = new Date(date);
-        return newDate.toDateString();
-    }
+const Article = ({posts, page}) =>{
+    const USER_PER_PAGE = 5;
+    const startIndex = (page - 1) * USER_PER_PAGE;
+    const selectedPosts = posts.slice(startIndex, startIndex+ USER_PER_PAGE);
+    
     return(
         <>
-        {
-           
-            hits.map( (hit, index) => {
-                return(
-                    <div key={index} className="news-container">
-                        
-                    <article className="news-articale">
-                        <div className="articale-row1">
-                            <h4>{hit.title}</h4>
-                            <a href={hit.url}>Link</a>
-                        </div>
-                        
-                        <div className="articale-row2">
-                            <p>Date : {changeDate(hit.created_at)}</p>
-                            <p>Author : {hit.author}</p>
-                        </div>
-                    </article>
-                                            
-                    </div>
-                );
-            })
-        }
+            <div className="news-container">
+                {selectedPosts.map(  (post) => (
+                    <SelectedArticle  post={post} key={Math.random()}/>
+                ))}
+            </div>
         </>
-    );
+    ); 
 }
 
 export default Article;
