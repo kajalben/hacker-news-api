@@ -1,0 +1,81 @@
+.footer {
+    background: linear-gradient(180deg,#2c4886, #395697);
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-weight: bold;
+    padding-top: 1em;
+}
+
+.follow {
+    text-decoration: underline;
+    text-decoration-color:white;
+    font-size: 2em;
+}
+
+.socials-container{
+    width: 100%;
+    display: flex;
+    padding: 1em;
+}
+
+.buttons {
+    width: 50%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.button {
+    border: 2px solid rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+    line-height: 2;
+    text-align: center;
+    background: transparent;      
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 3px;
+    margin-left: 2em;
+}
+
+
+
+.button:hover{
+    background-color: white;
+    border: 2px solid rgb(255, 255, 255);
+    color:#395697;
+}
+
+.socials {
+    width: 50%;
+    display: flex;
+    list-style: none;
+    justify-content: space-around;
+}
+
+.socials li img{
+    width: 3em;
+}
+
+/* @media all and (max-width : 992px){
+    
+} */
+
+@media all and (max-width : 688px){
+    .socials-container{
+        display: flex;
+        flex-direction: column;
+    }
+    .buttons{
+        width: 100%;
+        justify-content: space-around;
+    }
+    .socials{
+        width: 100%;
+        margin-top: 1em;
+    }
+}
+
+
+
+
+
+
