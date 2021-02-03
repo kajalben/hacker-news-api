@@ -1,8 +1,14 @@
+import "./Header.css";
+import deskk from "./img/deskk.jpg"
+
+
 const Header = () =>{
     return(
-        <>
-        <h1>Header</h1>
-        </>
+        <header>
+        <h1>Hacker News</h1>
+        
+</header>
+
     );
 }
 
