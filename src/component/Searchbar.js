@@ -8,9 +8,9 @@ const Searchbar = ({onChange}) =>{
             <div className="wrap">
                 <div className="search">
                     <input type="text" className="searchTerm" placeholder="Search posts by Title or Auther" onChange={onChange} />
-                    <button type="submit" className="searchButton">
+                    <span className="searchButton">
                         <i className="fas fa-search"></i>
-                    </button>
+                    </span>
                 </div>
             </div>
         </header>
