@@ -1,18 +1,28 @@
-import { ImageOutlined } from '@material-ui/icons';
 import React, { Fragment } from 'react';
-import SelectedArticle from '../component/SelectedArticle';
 import '../styles/article.css';
 
-const Article = ({posts, page}) =>{
-    const USER_PER_PAGE = 5;
-    const startIndex = (page - 1) * USER_PER_PAGE;
-    const selectedPosts = posts.slice(startIndex, startIndex+ USER_PER_PAGE);
+const Article = ({posts}) =>{
+    const changeDate = (date) =>{
+        const newDate = new Date(date);
+        return newDate.toDateString();
+    }
     
     return(
         <>
-            <div className="news-container">
-                {selectedPosts.map(  (post) => (
-                    <SelectedArticle  post={post} key={Math.random()}/>
+            <div id="news-container">
+                {posts.map(  (post) => (
+                   <article className="news-articale" key={post.objectID}>
+                   <div className="articale-row1">
+                       <h5 id={post.objectID}>{post.title ? post.title : 'Tech Post'}</h5>
+                       {post.url && <a href={post.url}><i class="fas fa-link"></i></a>}
+                   </div>
+                   
+                   <div className="articale-row2">
+                       <p><i class="far fa-calendar-alt"></i> : {changeDate(post.created_at)}</p>
+                       <p><i class="fas fa-user-shield"></i> : {post.author}</p>
+                       <p><i class="fas fa-star"></i> : {post.points}</p>
+                   </div>
+               </article>
                 ))}
             </div>
         </>

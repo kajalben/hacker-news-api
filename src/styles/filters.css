@@ -4,11 +4,10 @@
     padding: 0.5em;
 }
 
-.dropdowm{
+.dropdown-select{
     width: 10%;
-    border: 1px solid #0e49b5;
-    padding: 5px;
-    height: 36px;
+    padding: 0 5px;
+    height: 30px;
     border-radius: 5px;
     outline: none;
     color: #858584;
@@ -16,16 +15,17 @@
     font-family: 'Quicksand', sans-serif;
 }
 
-.dropdowm-text{
+.dropdown-text{
     color: #ffffff;
-    font-size: 1em;
+    font-size: 0.9em;
+    margin-left: 2em;
 }
 
 @media all and (max-width : 992px){
     body{
         font-size: 15px !important;
     }
-    .dropdowm{
+    .dropdown-select{
         width: 15%;
     }
 }
@@ -34,7 +34,7 @@
     body{
         font-size: 14px !important;
     }
-    .dropdowm{
+    .dropdown-select{
         width: 30%;
     }
 }
