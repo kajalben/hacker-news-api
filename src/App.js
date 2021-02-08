@@ -11,8 +11,9 @@ function App() {
   const [searchInput, setSearchInput] = useState();
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] =useState(true);
 
-  const queryParams = `search?`;
+  const queryParams = `search?tags=story`;
   const [ query, setQuery] = useState(queryParams);
 
   const url = 'https://hn.algolia.com/api/v1/';
@@ -21,21 +22,25 @@ function App() {
   // call API when Query and page cahnged
   useEffect( () => {
     const getPostPerPage = async () => {
+      setIsLoading(true);
       try {
         const endpoint = url + query + `&page=${page}`;
         console.log(endpoint);
         const response = await fetch(endpoint);
-        
+        console.log(endpoint);
+        if(response.ok){
           const jsonResponse = await response.json();
+          setIsLoading(false);
           setPosts(jsonResponse.hits);
           setTotalPage(jsonResponse.nbPages);
-         
+          return;
+        }
       } catch (error) {
         console.log('Network error :' + error.message);
       }
     }
     getPostPerPage();
-  }, [page, query, totalPage]);
+  }, [page, query]);
 
 
   //highlight Test while user searching
@@ -47,9 +52,12 @@ function App() {
         if((matchText = regX.exec(post.title)) !== null){
           document.querySelector(`[id='${post.objectID}']`).innerHTML = post.title.replace(regX,`<em>${matchText}</em>`)
         }
+        if((matchText = regX.exec(post.author)) !== null){
+          document.querySelector(`[id='${post.objectID}']`).innerHTML = post.author.replace(regX,`<em>${matchText}</em>`)
+        }
       }
     }
-    }, [posts]);
+  },[posts]);
 
 
   //filter data  according to date and popularity
@@ -59,42 +67,38 @@ function App() {
       setQuery(`search_by_date?tags=story`);
     }
     if(value === 'popularity'){
-      setQuery(`search?numericFilters=points>1`);
+      setQuery(`search?numericFilters=points>1&tags=story`);
     }
   }
 
   const handleTimeFilter = ({target})  => {
     const {value} = target;
     const ts = Math.round((new Date()).getTime() / 1000);
-    let tsByQuery = 86400;
-
+    let tsStart, tsEnd;
     if(value === '24hour'){
-      tsByQuery = 86400;
+      tsStart = ts;
+      tsEnd =   ts - 86400; //timestamp for last24hours
     }
     if(value === 'week'){
-      tsByQuery = 86400*7;
+      tsStart = ts - 86400*7; //timestamp for last week
+      tsEnd =   ts - 86400*7*2; 
     }
     if(value === 'month'){
-      tsByQuery = 86400*24;
+      tsStart = ts - 86400*24; //timestamp for last month
+      tsEnd =   ts - 86400*24*2; 
     }
     if(value === 'year'){
-      tsByQuery = 86400*356;
+      tsStart = ts - 86400*356; //timestamp for last year
+      tsEnd =   ts - 86400*365*2; 
     }
-    const newTs = ts - tsByQuery;
-    setQuery(`search_by_date?tags=story&numericFilters=created_at_i>${newTs}&page=${page}`);
-    
+    setQuery(`search_by_date?tags=story&numericFilters=created_at_i>${tsEnd},created_at_i<${tsStart}&page=${page}`);
   }
 
 // handle post while user search
   const handleSearch =({target}) =>{
     const {value} = target;
+    setQuery(`search?query=${value}&tags=story`);
     setSearchInput(value);
-    if(value){
-      setQuery(`search?query=${value}`);
-    }
-    else{
-      setQuery(queryParams);
-    }
   }
 
   const handlePage = (e ,num) => {
@@ -107,15 +111,15 @@ function App() {
 
       <Filters handleDatefilter={handleDatefilter} handleTimeFilter={handleTimeFilter}/>
       <main className="container">
-          {!posts ? 
-            <span className="spinner"> 
-              <i class="fas fa-spinner"></i>
-            </span> : 
-            <>
-              <Article  posts={posts} page={page}/>
-              <PaginationNew totalPage={totalPage} onChange={handlePage}/> 
-            </>
-          }
+      {isLoading && <span className="spinner"> 
+            <i className="fas fa-spinner"></i>
+            </span>
+      }
+      {posts  && <>
+          <Article  posts={posts} page={page}/>
+          <PaginationNew totalPage={totalPage} onChange={handlePage}/> 
+        </>
+      }
       </main>
       <Footer />
     </>

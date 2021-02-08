@@ -14,19 +14,21 @@ const Article = ({posts}) =>{
                    <article className="news-articale" key={post.objectID}>
                    <div className="articale-row1">
                        <h5 id={post.objectID}>{post.title ? post.title : 'Tech Post'}</h5>
-                       {post.url && <a href={post.url}><i class="fas fa-link"></i></a>}
+                       {post.url ? <a href={post.url}><i className="fas fa-link"></i></a> :
+                            <div className="isDisabled"><i className="fas fa-link"></i></div>
+                       }
                    </div>
                    
                    <div className="articale-row2">
-                       <p><i class="far fa-calendar-alt"></i> : {changeDate(post.created_at)}</p>
-                       <p><i class="fas fa-user-shield"></i> : {post.author}</p>
-                       <p><i class="fas fa-star"></i> : {post.points}</p>
+                       <p><i className="far fa-calendar-alt"></i> : {changeDate(post.created_at)}</p>
+                       <p id={post.objectID}><i className="fas fa-user-shield"></i> : {post.author}</p>
+                       <p><i className="fas fa-star"></i> : {post.points}</p>
                    </div>
                </article>
                 ))}
             </div>
         </>
-    ); 
+    );                                        
 }
 
 export default Article;

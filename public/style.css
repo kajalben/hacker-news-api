@@ -14,8 +14,7 @@ body{
 
 
 .news-articale em {
-    background: #ff0!important;
-    color: #000!important;
+    background: rgb(54,82,147, 0.5) !important;
 }
 
 .spinner{
@@ -24,4 +23,15 @@ body{
     display: flex;
     justify-content: center;
     margin-top: 1em;
+    animation: spin 2s ease-in-out infinite;
+  -webkit-animation: spin 2s ease-in-out infinite;
+
 }
+
+@keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+  @-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+  }
+

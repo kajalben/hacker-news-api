@@ -5,11 +5,10 @@ const DateFilter = ({onChange}) => {
         <>
                 <label className="dropdown-text">Sort By </label>
                 <select className="dropdown-select" onChange={onChange}>
-                    <option name="date" value="date"> Date </option>
-                    <option name="popularity" value="popularity"> Popularity </option>
+                    <option value="popularity">Popularity</option>
+                    <option value="date">Date</option>
                 </select>
         </>
-
     );
 
 }
