@@ -4,11 +4,13 @@ import Footer from './component/Footer';
 import Searchbar from './component/Searchbar';
 import Filters from './component/Filters';
 import PaginationNew from './component/paginationNew';
+import './styles/app.css';
 
 
 function App() {
   const [posts, setPosts] = useState();
-  const [searchInput, setSearchInput] = useState();
+  const [userInput, setUserInput] = useState("");
+
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] =useState(true);
@@ -27,12 +29,11 @@ function App() {
         const endpoint = url + query + `&page=${page}`;
         console.log(endpoint);
         const response = await fetch(endpoint);
-        console.log(endpoint);
         if(response.ok){
           const jsonResponse = await response.json();
           setIsLoading(false);
           setPosts(jsonResponse.hits);
-          setTotalPage(jsonResponse.nbPages);
+          setTotalPage(jsonResponse.hitsPerPage);
           return;
         }
       } catch (error) {
@@ -41,23 +42,6 @@ function App() {
     }
     getPostPerPage();
   }, [page, query]);
-
-
-  //highlight Test while user searching
-  useEffect( () => {
-    if(searchInput){
-      const regX = new RegExp(`${searchInput}`,'i');
-      let matchText ;
-      for(let post of posts){
-        if((matchText = regX.exec(post.title)) !== null){
-          document.querySelector(`[id='${post.objectID}']`).innerHTML = post.title.replace(regX,`<em>${matchText}</em>`)
-        }
-        if((matchText = regX.exec(post.author)) !== null){
-          document.querySelector(`[id='${post.objectID}']`).innerHTML = post.author.replace(regX,`<em>${matchText}</em>`)
-        }
-      }
-    }
-  },[posts]);
 
 
   //filter data  according to date and popularity
@@ -94,20 +78,26 @@ function App() {
     setQuery(`search_by_date?tags=story&numericFilters=created_at_i>${tsEnd},created_at_i<${tsStart}&page=${page}`);
   }
 
-// handle post while user search
-  const handleSearch =({target}) =>{
-    const {value} = target;
-    setQuery(`search?query=${value}&tags=story`);
-    setSearchInput(value);
-  }
+
 
   const handlePage = (e ,num) => {
     setPage(num);
   }
 
+  const handleChange = (e) =>{
+    setUserInput(e.target.value);
+    setQuery(`search?query=${e.target.value}&tags=story`);
+  }
+
+  const handleReset = () =>{
+    setUserInput('');
+    setQuery(queryParams);
+  }
+
+
   return (
     <>
-      <Searchbar value={searchInput} onChange={handleSearch}/>
+      <Searchbar value={userInput} onChange={handleChange} onClick={handleReset} search={userInput}/>
 
       <Filters handleDatefilter={handleDatefilter} handleTimeFilter={handleTimeFilter}/>
       <main className="container">
@@ -115,10 +105,10 @@ function App() {
             <i className="fas fa-spinner"></i>
             </span>
       }
-      {posts  && <>
-          <Article  posts={posts} page={page}/>
+      {posts && <>
+          <Article  posts={posts} page={page} search={userInput} />
           <PaginationNew totalPage={totalPage} onChange={handlePage}/> 
-        </>
+        </> 
       }
       </main>
       <Footer />
