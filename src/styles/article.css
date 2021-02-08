@@ -1,9 +1,9 @@
 
+
 #news-container{
     display: flex;
     background-color: white;
     flex-direction: column;
-    font-size: 16px;
     min-height: 550px;
     width: 80%;
     display: flex;
@@ -14,7 +14,7 @@
     width: 100%;
     border: 3px solid #0e49b5;
     border-radius: 10px;
-    padding: 10px;
+    padding: 5px;
     box-shadow:inset 2px 2px 0px 0px #0e49b5; 
     transition: box-shadow 0.5s;
     position: relative;
@@ -36,13 +36,13 @@
 .articale-row1{
     display: flex;
     justify-content: space-between;
-    padding: 1px 5px;
+    padding: 2px 5px;
     font-size: 1em;
 }
 
 .articale-row2{
     display: flex;
-    padding: 1px 5px;
+    padding: 2px 5px;
     font-size: 0.7em;
 }
 
@@ -68,3 +68,9 @@
     cursor: not-allowed;
     opacity: 0.5; 
 }
+
+.highlight {
+    font-weight: 700;
+    background: rgb(54,82,147, 0.5) !important;
+}
+

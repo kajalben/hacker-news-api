@@ -11,7 +11,6 @@ const Filters = ({handleDatefilter, handleTimeFilter}) => {
                 <TimeFilter onChange={handleTimeFilter}/>
             </form>
         </>
-
     );
 
 }
