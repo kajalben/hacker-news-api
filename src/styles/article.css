@@ -72,6 +72,7 @@
 
 .highlight {
     font-weight: 700;
-    background: rgb(54,82,147, 0.5) !important;
+    color: rgb(255, 255, 255);
+    background: rgb(54,82,147) !important;
 }
 
