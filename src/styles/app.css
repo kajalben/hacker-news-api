@@ -1,15 +1,15 @@
 *{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body{
-  font-family: 'Quicksand', sans-serif;
   font-size: 16px;
+  font-family: 'Quicksand', sans-serif;
 }
-.container{
+
+#container{
   min-height: 550px;
 }
 
@@ -20,7 +20,7 @@ body{
     justify-content: center;
     margin-top: 1em;
     animation: spin 2s ease-in-out infinite;
-  -webkit-animation: spin 2s ease-in-out infinite;
+    -webkit-animation: spin 2s ease-in-out infinite;
 }
 
 .spinner i {
@@ -29,13 +29,17 @@ body{
 }
 
 .error-message{
-  width: 100%;
-  font-size: 1em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1em;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin-top: 1em;
+    padding: 30px;
+    border: 3px solid #0e49b5;
+    border-radius: 10px;
+    box-shadow:inset 2px 2px 0px 0px #0e49b5; 
+    transition: box-shadow 0.5s;
+    margin: 3em auto;
+    font-size: 1.5em;
 }
 
 @keyframes spin {

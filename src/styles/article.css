@@ -27,23 +27,17 @@
     /* transform: translate(0.25rem, -0.25rem); */
 }
 
-/* .news-articale:hover::after{
-    z-index: -2;
-    background-color: #000000;
-    transition: inherit;
-} */
-
 .articale-row1{
     display: flex;
     justify-content: space-between;
     padding: 2px 5px;
-    font-size: 1em;
+    font-size: 1.3em;
 }
 
 .articale-row2{
     display: flex;
     padding: 2px 5px;
-    font-size: 0.7em;
+    font-size: 0.8em;
 }
 
 .articale-row1 a:not(:first-child){
