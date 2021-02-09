@@ -30,6 +30,8 @@ header h1 {
   height: 36px;
   outline: none;
   color: #9DBFAF;
+  font-size: 0.9em;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .searchTerm:focus{
