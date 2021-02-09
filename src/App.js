@@ -15,7 +15,7 @@ function App() {
   const [page, setPage] = useState(1);
 
   const [isLoading, setIsLoading] =useState(true);
-  const [isError, setIsError] = useState();
+  const [isError, setIsError] = useState({ error : false, message : ''});
 
   const queryParams = `search?tags=story`;
   const [ query, setQuery] = useState(queryParams);
@@ -27,7 +27,7 @@ function App() {
   useEffect( () => {
     const getPostPerPage = async () => {
       setIsLoading(true);
-      setIsError(false);
+      setIsError({error : false, message :''});
       try {
         const endpoint = url + query + `&page=${page}`;
         console.log(endpoint);
@@ -41,7 +41,7 @@ function App() {
         }
       } catch (error) {
         console.log(error.message);
-        setIsError(true);
+        setIsError({error : true, message: 'Something goes wrong....! Please refresh the page'});
         setIsLoading(false);
       }
     }
@@ -87,14 +87,46 @@ function App() {
     setPage(num);
   }
 
+  const getPostOnSearch = async (query) => {
+    setIsLoading(true);
+    setIsError({error : false, message : ''});
+    try {
+      const endpoint = url + query + `&page=${page}`;
+      console.log(endpoint);
+      const response = await fetch(endpoint);
+      
+      if(response.ok){
+        const jsonResponse = await response.json();
+        setIsLoading(false);
+        if(jsonResponse.hits.length >= 1){
+          setPosts(jsonResponse.hits);
+          setTotalPage(jsonResponse.nbPages);
+          return;
+        }
+        else{
+          setIsError({error : true, message: 'Try Again! There were no suggestions found!'});
+          setIsLoading(false);
+          return;
+        }
+        
+      }
+      
+    } catch (error) {
+      console.log(error.message);
+      setIsError({error : true, message: 'Something goes wrong....! Please refresh the page'});
+      setIsLoading(false);
+    }
+  }
+
   const handleChange = (e) =>{
     setUserInput(e.target.value);
-    setQuery(`search?query=${e.target.value}&tags=story`);
+    getPostOnSearch(`search?query=${e.target.value}&tags=story`);
   }
 
   const handleReset = () =>{
     setUserInput('');
     setQuery(queryParams);
+    setIsError({error : false, message :''});
   }
 
 
@@ -108,10 +140,8 @@ function App() {
               <i className="fas fa-spinner"></i>
               </span>
         }
-        {isError && <span className="error-message">
-          <p>Something goes wrong....!</p>
-          <br />
-          <p>Please refresh the page</p>
+        {isError.error && <span className="error-message">
+          {isError.message}
         </span>}
         {posts && <>
             <Article  posts={posts} page={page} search={userInput} />

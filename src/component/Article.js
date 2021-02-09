@@ -33,7 +33,7 @@ const Article = ({posts, search}) =>{
                                 : { __html: post.title ? post.title : 'Tech Post'} 
                             }></h5>
 
-                            {post.url ? <a href={post.url}><i className="fas fa-link"></i></a> :
+                            {post.url ? <a target="_blank" href={post.url}><i className="fas fa-link"></i></a> :
                                 <div className="isDisabled"><i className="fas fa-link"></i></div>
                             }
                         </div>
