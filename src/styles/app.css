@@ -6,11 +6,11 @@
 
 body{
   font-family: 'Quicksand', sans-serif;
-    font-size: 16px;
+    font-size: 20px;
     
 }
 .container{
-    min-height: 550px;
+  min-height: 550px;
 }
 
 
@@ -23,6 +23,20 @@ body{
     animation: spin 2s ease-in-out infinite;
   -webkit-animation: spin 2s ease-in-out infinite;
 
+}
+
+.spinner i {
+  color: #0e49b5;
+}
+
+.error-message{
+  width: 100%;
+  font-size: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1em;
 }
 
 @keyframes spin {

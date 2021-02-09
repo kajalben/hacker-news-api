@@ -13,7 +13,9 @@ function App() {
 
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(1);
+
   const [isLoading, setIsLoading] =useState(true);
+  const [isError, setIsError] = useState();
 
   const queryParams = `search?tags=story`;
   const [ query, setQuery] = useState(queryParams);
@@ -25,6 +27,7 @@ function App() {
   useEffect( () => {
     const getPostPerPage = async () => {
       setIsLoading(true);
+      setIsError(false);
       try {
         const endpoint = url + query + `&page=${page}`;
         console.log(endpoint);
@@ -33,11 +36,13 @@ function App() {
           const jsonResponse = await response.json();
           setIsLoading(false);
           setPosts(jsonResponse.hits);
-          setTotalPage(jsonResponse.hitsPerPage);
+          setTotalPage(jsonResponse.nbPages);
           return;
         }
       } catch (error) {
-        console.log('Network error :' + error.message);
+        console.log(error.message);
+        setIsError(true);
+        setIsLoading(false);
       }
     }
     getPostPerPage();
@@ -77,9 +82,7 @@ function App() {
     }
     setQuery(`search_by_date?tags=story&numericFilters=created_at_i>${tsEnd},created_at_i<${tsStart}&page=${page}`);
   }
-
-
-
+  
   const handlePage = (e ,num) => {
     setPage(num);
   }
@@ -101,15 +104,20 @@ function App() {
 
       <Filters handleDatefilter={handleDatefilter} handleTimeFilter={handleTimeFilter}/>
       <main className="container">
-      {isLoading && <span className="spinner"> 
-            <i className="fas fa-spinner"></i>
-            </span>
-      }
-      {posts && <>
-          <Article  posts={posts} page={page} search={userInput} />
-          <PaginationNew totalPage={totalPage} onChange={handlePage}/> 
-        </> 
-      }
+        {isLoading && <span className="spinner"> 
+              <i className="fas fa-spinner"></i>
+              </span>
+        }
+        {isError && <span className="error-message">
+          <p>Something goes wrong....!</p>
+          <br />
+          <p>Please refresh the page</p>
+        </span>}
+        {posts && <>
+            <Article  posts={posts} page={page} search={userInput} />
+            <PaginationNew totalPage={totalPage} onChange={handlePage}/> 
+          </> 
+        }
       </main>
       <Footer />
     </>

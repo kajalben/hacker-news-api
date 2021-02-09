@@ -20,8 +20,7 @@ const Article = ({posts, search}) =>{
     return(
         <>
             <div id="news-container">
-            {posts
-                .filter((s) =>{
+            {posts.filter((s) =>{
                     return search && search.length > 2 ? s.title.match(new RegExp(search, "gi")): s
                 })
                 .map((post) => {
