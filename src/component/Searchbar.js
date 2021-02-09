@@ -12,7 +12,7 @@ const Searchbar = ({onChange, onClick, search, value}) =>{
                     </span>
                     <input type="text" className="searchTerm" placeholder="Search posts by Title" onChange={onChange}  value={value}/>
                     <span type="submit" className="btn clear-btn" >
-                           {search.length > 2 && <i className="fas fa-times" onClick={onClick}></i>} 
+                           {search.length > 2 && <i className="fas fa-times" onKeyPress={onClick}></i>} 
                     </span>
                 </div>
             </div>
