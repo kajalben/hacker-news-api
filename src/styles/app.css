@@ -2,11 +2,12 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 body{
   font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
 }
 .container{
   min-height: 550px;
@@ -15,17 +16,16 @@ body{
 
 .spinner{
     width: 100%;
-    font-size: 2em;
     display: flex;
     justify-content: center;
     margin-top: 1em;
     animation: spin 2s ease-in-out infinite;
   -webkit-animation: spin 2s ease-in-out infinite;
-
 }
 
 .spinner i {
   color: #0e49b5;
+  font-size: 3em;
 }
 
 .error-message{
