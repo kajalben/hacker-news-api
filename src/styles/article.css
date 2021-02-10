@@ -1,10 +1,7 @@
-
-
 #news-container{
     display: flex;
     background-color: white;
     flex-direction: column;
-    min-height: 550px;
     width: 70%;
     display: flex;
     margin: 2em auto;
