@@ -16,10 +16,9 @@ function App() {
   const [page, setPage] = useState(1);
 
   const [isLoading, setIsLoading] =useState(true);
-  const [isError, setIsError] = useState({ error : false, message : ''});
 
   const queryParams = `search?tags=story`;
-  const [ query, setQuery] = useState(queryParams);
+  const [query, setQuery] = useState(queryParams);
 
   const url = 'https://hn.algolia.com/api/v1/';
 
@@ -32,19 +31,14 @@ function App() {
 
   const getPostPerPage = () => {
     setIsLoading(true);
-    setIsError({error : false, message :''});
     const endpoint = url + query + `&page=${page}`;
      // Get Post from API
     fetchPost(endpoint).then( (data) =>{
       setIsLoading(false);
       setPosts(data.hits);
       setTotalPage(data.nbPages);
-    }).catch( () => {
-      setIsError({error : true, message: 'Something goes wrong....! Please refresh the page'});
-      setIsLoading(false);
     })
   }
-
 
   //filter data  according to date and popularity
   const handleDatefilter = ({target}) =>{
@@ -90,37 +84,32 @@ function App() {
     });
   }
 
-  const getPostOnSearch = (query) => {
-    setIsLoading(true);
-    setIsError({error : false, message : ''});
-    const endpoint = url + query + `&page=${page}`;
-    fetchPost(endpoint).then( (data) =>{
-      if(data.hits.length > 0){
-        setPosts(data.hits);
-        setTotalPage(data.nbPages);
-        setIsLoading(false);
-        setIsError({error : false, message: ''});
-      }
-      else{
-        setIsError({error : true, message: 'Try Again! There were no suggestions found!'});
-        setIsLoading(false);
-      }
-    }).catch ( () =>{
-      setIsError({error : true, message: 'Something goes wrong....! Please refresh the page'});
-      setIsLoading(false);
-    }) 
-    
-  }
-
   const handleChange = ({target}) =>{
     const {value} = target;
-    setUserInput(value);
-    getPostOnSearch(`search?query=${value}&tags=story`);
+    const sanitizedInput = value.replace(/[^\w\d\s.]+/g, "").toLowerCase();
+    setUserInput(sanitizedInput);
+    setQuery(`search?query=${sanitizedInput}&tags=story`);
+    getPostPerPage(query);
   }
 
   const handleReset = () =>{
     setUserInput('');
     setQuery(queryParams);
+  }
+
+  const dispalyArticle = () =>{
+    if(isLoading){
+      return <span className="spinner"> 
+        <i className="fas fa-spinner"></i>
+      </span>
+    }
+    else if(!posts.length){
+      return <span className="error-message">Try again! No suggetions were found</span>
+    }
+    else{
+      return <Article  posts={posts} page={page} search={userInput} />
+    }
+
   }
 
   return (
@@ -129,19 +118,9 @@ function App() {
 
       <Filters handleDatefilter={handleDatefilter} handleTimeFilter={handleTimeFilter}/>
       <main id="container">
-        {isLoading && <span className="spinner"> 
-              <i className="fas fa-spinner"></i>
-              </span>
-        }
-        {isError.error && <span className="error-message">
-          {isError.message}
-        </span>}
-        {posts && <>
-            <Article  posts={posts} page={page} search={userInput} />
-            <Pagination totalPage={totalPage} onChange={handlePage}/> 
-          </> 
-        }
+        {posts && dispalyArticle()}
       </main>
+      <Pagination totalPage={totalPage} onChange={handlePage}/> 
       <Footer />
     </>
   );
