@@ -26,12 +26,14 @@ function App() {
   // Get Post API when Query and page changed
   useEffect( () => {
     getPostPerPage();
+    let interval = setInterval(() => getPostPerPage(), 120000);
+    return () => clearInterval(interval);
   }, [page, query]);
 
 
   const getPostPerPage = () => {
     setIsLoading(true);
-    const endpoint = url + query + `&page=${page}`;
+    const endpoint = encodeURI(url + query + `&page=${page}`);
      // Get Post from API
     fetchPost(endpoint).then( (data) =>{
       setIsLoading(false);
@@ -86,10 +88,10 @@ function App() {
 
   const handleChange = ({target}) =>{
     const {value} = target;
+    
     const sanitizedInput = value.replace(/[^\w\d\s.]+/g, "").toLowerCase();
     setUserInput(sanitizedInput);
-    setQuery(`search?query=${sanitizedInput}&tags=story`);
-    getPostPerPage(query);
+    if(sanitizedInput.length > 2) setQuery(`search?query=${sanitizedInput}&tags=story`);
   }
 
   const handleReset = () =>{
