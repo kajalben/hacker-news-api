@@ -1,3 +1,4 @@
 # Hacker News API
-#npm install
-#npm start
+command to run this React Project
+1) npm install
+2) npm start
